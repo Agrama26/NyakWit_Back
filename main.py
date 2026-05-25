@@ -2,6 +2,7 @@ import io
 import os
 import logging
 from pathlib import Path
+import gdown
 
 import torch
 import torch.nn as nn
@@ -20,6 +21,16 @@ logger = logging.getLogger(__name__)
 
 # ─── Konstanta ────────────────────────────────────────────────────────────────
 MODEL_PATH  = os.getenv("MODEL_PATH", "model_c/best_model_phase2.pth")
+
+if not os.path.exists(MODEL_PATH):
+    os.makedirs("model_c", exist_ok=True)
+
+    file_id = "14CNR0fTi13n8yNtJIkaJ9JmuiWfWBCsr"
+    url = f"https://drive.google.com/uc?id={file_id}"
+
+    print("Downloading model...")
+    gdown.download(url, MODEL_PATH, quiet=False)
+
 DEVICE      = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 IMG_SIZE    = 224
 NUM_CLASSES = 5
